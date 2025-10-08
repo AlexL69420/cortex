@@ -1,0 +1,17 @@
+{
+  "name": "exercise-json-server",
+  "version": "1.0.0",
+  "description": "JSON Server for Exercise management",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "json-server --watch db.json --port 3000",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "dependencies": {
+    "json-server": "^0.17.4"
+  },
+  "keywords": ["json-server", "rest-api", "exercise"],
+  "author": "Your Name",
+  "license": "MIT"
+}
