@@ -1,11 +1,11 @@
-import { useVariants } from "../../hooks/useVariants";
-import VariantsList from "./VariantsList";
-import SearchSection from "./SearchSection";
-import HeaderSection from "./BodyHeaderSection";
-import LoadingState from "./LoadingState";
-import ErrorState from "./ErrorState";
+import { useVariants } from "../features/hooks/useVariants";
+import VariantsList from "../features/components/MainPage/VariantsList";
+import SearchSection from "../features/components/MainPage/SearchSection";
+import HeaderSection from "../features/components/MainPage/BodyHeaderSection";
+import LoadingState from "../features/components/MainPage/LoadingState";
+import ErrorState from "../features/components/MainPage/ErrorState";
 
-export default function MainPageBody() {
+export default function MainPage() {
   // Используем хук Tanstack Query для получения вариантов
   const { data: allVariants, isLoading, error } = useVariants();
 
