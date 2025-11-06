@@ -7,7 +7,7 @@ import { Button, Avatar } from "flowbite-react";
 import { VscAccount } from "react-icons/vsc";
 import { ImageInput } from "../features/components/ImageInput";
 
-export default function RegisterForm() {
+export default function RegistrationPage() {
   // Состояние для обработки ошибок
   const [error, setError] = useState<string | null>(null);
 

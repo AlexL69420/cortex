@@ -1,13 +1,9 @@
-import ExercisesList from "../features/components/Exercises";
-import { MyFooter } from "../features/components/Footer";
-import Header from "../features/components/Header";
+import ExercisesList from "../features/components/ExercisesList";
 
 export default function ExercisesPage() {
   return (
-    <main className="flex min-h-screen flex-col items-center gap-2 dark:bg-slate-600">
-      <Header />
+    <main className="flex min-h-screen min-w-full flex-col items-center gap-2 dark:bg-slate-600">
       <ExercisesList />
-      <MyFooter />
     </main>
   );
 }

@@ -5,18 +5,19 @@ import "./index.css";
 import NotFoundPage from "../pages/NotFoundPage.tsx";
 import ProfilePage from "../pages/Profile.tsx";
 import LoginPage from "../pages/LoginPage.tsx";
-import Variant from "../pages/Variant.tsx";
-import VariantsList from "../pages/Variants.tsx";
+import VariantPage from "../pages/VariantPage.tsx";
 import { AuthProvider } from "../features/model/AuthContext.tsx";
 import AdminPage from "../pages/AdminPage.tsx";
 import Courses from "../pages/Courses.tsx";
 import Constructor from "../pages/Constructor.tsx";
 import ExercisesPage from "../pages/ExercisesPage.tsx";
-import RegisterForm from "../pages/RegisterPage.tsx";
+import RegistrationPage from "../pages/RegistrationPage.tsx";
 import { QueryClientProvider } from "./QueryClientProvider.tsx";
 import ErrorPage from "../pages/ErrorPage.tsx";
 import Layout from "./AppLayout.tsx";
 import MainPage from "../pages/MainPage.tsx";
+import VariantsListPage from "../pages/VariantsListPage.tsx";
+import { TestProvider } from "../features/model/TestContext.tsx";
 
 const router = createBrowserRouter([
   {
@@ -38,11 +39,11 @@ const router = createBrowserRouter([
       },
       {
         path: "variant/:id",
-        element: <Variant />,
+        element: <TestProvider><VariantPage /></TestProvider>,
       },
       {
         path: "variants",
-        element: <VariantsList />,
+        element: <VariantsListPage />,
       },
       {
         path: "exercises",
@@ -62,7 +63,7 @@ const router = createBrowserRouter([
       },
       {
         path: "register",
-        element: <RegisterForm />,
+        element: <RegistrationPage />,
       },
       {
         path: "notfound",

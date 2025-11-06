@@ -31,7 +31,5 @@ server.listen(PORT, () => {
   console.log(`Available endpoints:`);
   console.log(`  GET /variants`);
   console.log(`  GET /exercises`);
-  console.log(`  GET /answers`);
   console.log(`  GET /variants/:id/exercises (nested)`);
-  console.log(`  GET /exercises/:id/answers (nested)`);
 });

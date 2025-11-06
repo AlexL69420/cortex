@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { Button, TextInput } from "flowbite-react";
 import { Dropdown } from "flowbite-react";
 import { useVariants } from "../../hooks/useVariants";
-import LoadingState from "./LoadingState";
-import ErrorState from "./ErrorState";
+import LoadingState from "../../../shared/LoadingState";
+import ErrorState from "../../../shared/ErrorState";
 
 export default function SearchSection() {
   const [difficulty, setDifficulty] = useState<string>("easy");

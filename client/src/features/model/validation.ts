@@ -8,19 +8,12 @@ import {
   exerciseSchema,
   createExerciseSchema,
   updateExerciseSchema,
-  answersArraySchema,
-  answerSchema,
-  createAnswerSchema,
-  updateAnswerSchema,
   type Variant,
   type Exercise,
-  type Answer,
   type CreateVariantInput,
   type UpdateVariantInput,
   type CreateExerciseInput,
   type UpdateExerciseInput,
-  type CreateAnswerInput,
-  type UpdateAnswerInput,
 } from './schemas';
 
 // Базовые функции валидации
@@ -47,9 +40,3 @@ export const validateExercise = (data: unknown): Exercise => validateData(exerci
 export const validateExercisesArray = (data: unknown): Exercise[] => validateData(exercisesArraySchema, data);
 export const validateCreateExercise = (data: unknown): CreateExerciseInput => validateData(createExerciseSchema, data);
 export const validateUpdateExercise = (data: unknown): UpdateExerciseInput => validateData(updateExerciseSchema, data);
-
-// Валидаторы для ответов
-export const validateAnswer = (data: unknown): Answer => validateData(answerSchema, data);
-export const validateAnswersArray = (data: unknown): Answer[] => validateData(answersArraySchema, data);
-export const validateCreateAnswer = (data: unknown): CreateAnswerInput => validateData(createAnswerSchema, data);
-export const validateUpdateAnswer = (data: unknown): UpdateAnswerInput => validateData(updateAnswerSchema, data);

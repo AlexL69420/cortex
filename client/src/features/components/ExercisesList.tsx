@@ -1,19 +1,16 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { LOCAL_API_URL } from "../../enviroment";
+import { useState } from "react";
 
-interface IExercise {
-  Id: number;
-  Description: string;
-  Problem: string;
-  Solution: string;
-  Answer: string;
-}
+import { useExercises } from "../hooks/useExercises";
+import LoadingState from "../../shared/LoadingState";
+import ErrorState from "../../shared/ErrorState";
+import { Exercise } from "../model/types";
+
+
 
 interface ExercisesListProps {
   isConstructorMode?: boolean; // Режим конструктора
-  onSelectExercise?: (exercise: IExercise) => void; // Обработчик выбора задания
-  selectedExercises?: IExercise[]; // Выбранные задания
+  onSelectExercise?: (exercise: Exercise) => void; // Обработчик выбора задания
+  selectedExercises?: Exercise[]; // Выбранные задания
 }
 
 export default function ExercisesList({
@@ -21,12 +18,9 @@ export default function ExercisesList({
   onSelectExercise,
   selectedExercises = [],
 }: ExercisesListProps) {
-  // Состояние для обработки ошибок
-  const [error, setError] = useState<string | null>(null);
-  // Состояние для хранения списка упражнений
-  const [exercises, setExercises] = useState<IExercise[]>([]);
-  // Состояние для обработки загрузки
-  const [loading, setLoading] = useState<boolean>(true);
+  
+  const { data: exercises, isLoading, error } = useExercises();
+
   // Состояние для поискового запроса
   const [searchQuery, setSearchQuery] = useState<string>("");
 
@@ -34,24 +28,6 @@ export default function ExercisesList({
   const [showSolution, setShowSolution] = useState<{ [key: number]: boolean }>(
     {},
   );
-
-  // Функция для загрузки заданий с бекенда
-  const fetchExercises = async () => {
-    try {
-      const response = await axios.get<IExercise[]>(
-        `${LOCAL_API_URL}api/exercises`,
-      );
-      setExercises(response.data); // Сохраняем данные в состояние
-      setLoading(false); // Загрузка завершена
-    } catch (err) {
-      setError("Ошибка при загрузке данных"); // Обработка ошибки
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchExercises();
-  }, []);
 
   const handleShowSolution = (exerciseId: number) => {
     setShowSolution((prev) => ({
@@ -61,7 +37,7 @@ export default function ExercisesList({
   };
 
   // Обработчик выбора задания
-  const handleSelectExercise = (exercise: IExercise) => {
+  const handleSelectExercise = (exercise: Exercise) => {
     if (isConstructorMode && onSelectExercise) {
       onSelectExercise(exercise);
     }
@@ -69,29 +45,25 @@ export default function ExercisesList({
 
   // Проверка, выбрано ли задание
   const isExerciseSelected = (exerciseId: number) => {
-    return selectedExercises.some((ex) => ex.Id === exerciseId);
+    return selectedExercises.some((ex) => ex.id === exerciseId);
   };
 
   // Фильтрация заданий по поисковому запросу
-  const filteredExercises = exercises.filter((exercise) =>
-    exercise.Description.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
+  const filteredExercises = exercises ? exercises.filter((exercise) =>
+    exercise.description.toLowerCase().includes(searchQuery.toLowerCase()),
+  ) : exercises
 
   // Отображение состояния загрузки
-  if (loading) {
+  if (isLoading) {
     return (
-      <div className="min-h-screen px-2 py-3 text-black dark:bg-slate-700 dark:text-white">
-        Загрузка...
-      </div>
+      <LoadingState />
     );
   }
 
   // Отображение ошибки
   if (error) {
     return (
-      <div className="min-h-screen px-2 py-3 text-black dark:bg-slate-700 dark:text-white">
-        {error}
-      </div>
+      <ErrorState error = {error.message}  />
     );
   }
 
@@ -107,37 +79,37 @@ export default function ExercisesList({
       />
 
       <div className="flex flex-col gap-4 p-5">
-        {filteredExercises.length > 0 ? (
+        {filteredExercises ? (
           <ul>
             {filteredExercises.map((exercise) => (
-              <li key={exercise.Id}>
+              <li key={exercise.id}>
                 <div
                   className={`mx-4 my-6 flex flex-col gap-2 rounded-2xl border-2 p-5 ${
                     isConstructorMode ? "hover:cursor-pointer " : ""
                   } ${
-                    isConstructorMode && isExerciseSelected(exercise.Id)
+                    isConstructorMode && isExerciseSelected(exercise.id)
                       ? "bg-gray-200 hover:cursor-pointer dark:bg-gray-600"
                       : ""
                   }`}
-                  onClick={() => handleSelectExercise(exercise)} // Выбор задания
+                  onClick={() => handleSelectExercise(exercise)} 
                 >
-                  <h2 className="font-bold">{exercise.Description}: </h2>
-                  <p className="font-sans">{exercise.Problem}</p>
+                  <h2 className="font-bold">{exercise.description}: </h2>
+                  <p className="font-sans">{exercise.problem}</p>
                   {!isConstructorMode && (
                     <div
                       className="text-gray-600 hover:cursor-pointer hover:underline dark:text-slate-300"
-                      onClick={() => handleShowSolution(exercise.Id)}
+                      onClick={() => handleShowSolution(exercise.id)}
                     >
-                      {showSolution[exercise.Id]
+                      {showSolution[exercise.id]
                         ? "Скрыть решение"
                         : "Показать решение"}
                     </div>
                   )}
-                  {!isConstructorMode && showSolution[exercise.Id] && (
+                  {!isConstructorMode && showSolution[exercise.id] && (
                     <>
-                      {exercise.Solution && <p>{exercise.Solution}</p>}
-                      {exercise.Answer && (
-                        <p className="font-bold">Ответ: {exercise.Answer}</p>
+                      {exercise.solution && <p>{exercise.solution}</p>}
+                      {exercise.answer && (
+                        <p className="font-bold">Ответ: {exercise.answer}</p>
                       )}
                     </>
                   )}

@@ -6,6 +6,7 @@ import { Dropdown, DarkThemeToggle, Avatar } from "flowbite-react";
 import { VscAccount } from "react-icons/vsc";
 import { FaBook } from "react-icons/fa";
 
+
 import { useAuth } from "../model/AuthContext";
 
 export default function Header() {
@@ -14,7 +15,7 @@ export default function Header() {
   return (
     <main className="flex h-16 w-full items-center justify-around bg-indigo-600 dark:bg-slate-800">
       <div className="flex w-11/12 justify-between gap-2">
-        <div className="flex h-12 flex-wrap items-center gap-1">
+        <Link to="/" className="flex h-12 flex-wrap items-center gap-1">
           <Avatar
             className={"w-12 text-white dark:text-red-800"}
             img={FaBook}
@@ -23,24 +24,10 @@ export default function Header() {
           <h1 className="font-mono text-3xl italic  text-white dark:text-red-800">
             Экзамены
           </h1>
-        </div>
+        </Link>
 
         <div className="flex w-1/2 items-center justify-around  text-white dark:text-slate-300">
-          <Dropdown label="Навигация" inline>
-            <Link to="/">
-              <Dropdown.Item>Главная</Dropdown.Item>
-            </Link>
-            <Link to="/exercises">
-              <Dropdown.Item>Задания</Dropdown.Item>
-            </Link>
-            <Link to="/variants">
-              <Dropdown.Item>Варианты</Dropdown.Item>
-            </Link>
-            <Link to="/courses">
-              <Dropdown.Item>Курсы</Dropdown.Item>
-            </Link>
-          </Dropdown>
-
+        
           <Dropdown label="Выбрать предмет" inline>
             <Link to="/">
               <Dropdown.Item>Информатика</Dropdown.Item>

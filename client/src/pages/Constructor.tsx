@@ -6,17 +6,11 @@ import { MyFooter } from "../features/components/Footer";
 import Header from "../features/components/Header";
 import axios from "axios";
 import { LOCAL_API_URL } from "../enviroment";
-import ExercisesList from "../features/components/Exercises";
+import ExercisesList from "../features/components/ExercisesList";
 import { useAuth } from "../features/model/AuthContext";
 import dataFormatter from "../features/lib/dataFormatter";
+import { Exercise } from "../features/model/types";
 
-interface IExercise {
-  Id: number;
-  Description: string;
-  Problem: string;
-  Solution: string;
-  Answer: string;
-}
 
 export default function Constructor() {
   const { user } = useAuth(); // Получаем данные пользователя
@@ -30,7 +24,7 @@ export default function Constructor() {
     solution: "",
     answer: "",
   });
-  const [selectedExercises, setSelectedExercises] = useState<IExercise[]>([]);
+  const [selectedExercises, setSelectedExercises] = useState<Exercise[]>([]);
 
   // Состояние для атрибутов варианта
   const [variantData, setVariantData] = useState({
@@ -50,15 +44,15 @@ export default function Constructor() {
   };
 
   // Обработчик выбора задания
-  const handleSelectExercise = (exercise: IExercise) => {
-    if (!selectedExercises.some((ex) => ex.Id === exercise.Id)) {
+  const handleSelectExercise = (exercise: Exercise) => {
+    if (!selectedExercises.some((ex) => ex.id === exercise.id)) {
       setSelectedExercises((prev) => [...prev, exercise]);
     }
   };
 
   // Обработчик удаления задания
   const handleRemoveExercise = (exerciseId: number) => {
-    setSelectedExercises((prev) => prev.filter((ex) => ex.Id !== exerciseId));
+    setSelectedExercises((prev) => prev.filter((ex) => ex.id !== exerciseId));
   };
 
   // Обработчик отправки варианта на сервер
@@ -81,7 +75,7 @@ export default function Constructor() {
       const currentDate = new Date().toISOString(); // Текущая дата в формате ISO
       const formattedDate = dataFormatter(currentDate); // Форматируем дату
 
-      const content = selectedExercises.map((ex) => ex.Id); // Массив ID заданий
+      const content = selectedExercises.map((ex) => ex.id); // Массив ID заданий
 
       const response = await axios.post(
         `${LOCAL_API_URL}api/variants/`,
@@ -333,12 +327,12 @@ export default function Constructor() {
                 <ul className="mt-4">
                   {selectedExercises.map((exercise) => (
                     <li
-                      key={exercise.Id}
+                      key={exercise.id}
                       className="flex items-center justify-between p-2"
                     >
-                      <span>{exercise.Description}</span>
+                      <span>{exercise.description}</span>
                       <button
-                        onClick={() => handleRemoveExercise(exercise.Id)}
+                        onClick={() => handleRemoveExercise(exercise.id)}
                         className="text-red-500 hover:text-red-700"
                       >
                         Удалить

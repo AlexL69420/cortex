@@ -1,7 +1,6 @@
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { Variant } from "../../model/schemas";
-import dataFormatter from "../../lib/dataFormatter";
+import { Variant } from "../features/model/schemas";
+import dataFormatter from "../features/lib/dataFormatter";
 
 interface VariantListProps {
   variants: Variant[];
@@ -11,11 +10,7 @@ export default function VariantsList({ variants }: VariantListProps) {
   const navigate = useNavigate();
 
   return (
-    <div className="flex w-2/3 flex-col gap-2 px-2">
-      <h1 className="font-mono text-2xl italic text-black dark:text-red-400">
-        Новые варианты
-      </h1>
-      <div className="flex flex-col gap-4 rounded-2xl border-2 bg-white p-5 dark:bg-slate-600">
+      <main>
         {variants.length > 0 ? (
           <ul>
             {variants.map((variant) => (
@@ -36,13 +31,6 @@ export default function VariantsList({ variants }: VariantListProps) {
         ) : (
           <p>Нет данных для отображения</p>
         )}
-        <Link
-          to="/variants"
-          className="text-gray-400 hover:underline dark:text-gray-300"
-        >
-          ещё варианты...
-        </Link>
-      </div>
-    </div>
+      </main>
   );
 }
